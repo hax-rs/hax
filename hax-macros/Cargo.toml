@@ -6,4 +6,7 @@ edition = "2021"
 [lib]
 proc-macro = true
 
+[dev-dependencies.hax]
+path = "../hax"
+
 [dependencies]

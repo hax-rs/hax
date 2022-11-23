@@ -2,8 +2,14 @@
 name = "hax"
 version = "0.0.0"
 edition = "2021"
+description = "🧪 The versatile and intuitive memory hacking library."
+documentation = "https://docs.rs/hax"
+readme = "../README.md"
+repository = "https://github.com/hax-rs/hax"
+license = "MIT"
 
 [dependencies.hax-macros]
+version = "*"
 path = "../hax-macros"
 
 [dependencies]

@@ -1,2 +1,2 @@
 [workspace]
-members = ["hax"]
+members = ["hax", "hax-macros"]

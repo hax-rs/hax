@@ -3,4 +3,7 @@ name = "hax"
 version = "0.0.0"
 edition = "2021"
 
+[dependencies.hax-macros]
+path = "../hax-macros"
+
 [dependencies]

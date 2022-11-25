@@ -12,7 +12,7 @@ license = "MIT"
 proc-macro = true
 
 [dev-dependencies.hax]
-version = "0.0.0"
 path = "../hax"
+version = "0.0.0"
 
 [dependencies]

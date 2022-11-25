@@ -9,7 +9,7 @@ repository = "https://github.com/hax-rs/hax"
 license = "MIT"
 
 [dependencies.hax-macros]
-version = "0.0.0"
 path = "../hax-macros"
+version = "0.0.0"
 
 [dependencies]

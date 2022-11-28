@@ -19,6 +19,12 @@ internal = []
 [dependencies]
 
 [[example]]
+name = "external"
+path = "examples/external.rs"
+required-features = ["external"]
+
+
+[[example]]
 name = "internal"
 path = "examples/internal.rs"
 crate-type = ["cdylib"]

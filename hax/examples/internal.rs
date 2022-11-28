@@ -1,4 +1,7 @@
-extern crate hax;
+use std::thread;
+use std::time::Duration;
+
+hax::main!(entrypoint);
 
 #[link(name = "kernel32")]
 extern "system" {
@@ -6,13 +9,16 @@ extern "system" {
     fn FreeConsole() -> isize;
 }
 
-#[hax::main]
-fn hax() {
-    AllocConsole();
+fn entrypoint() {
+    unsafe {
+        AllocConsole();
+    }
 
     println!("Hello, world!");
 
-    std::thread::sleep(std::time::Duration::new(5, 0));
+    thread::sleep(Duration::new(3, 0));
 
-    FreeConsole();
+    unsafe {
+        FreeConsole();
+    }
 }

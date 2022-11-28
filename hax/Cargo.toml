@@ -28,3 +28,4 @@ required-features = ["external"]
 name = "internal"
 path = "examples/internal.rs"
 crate-type = ["cdylib"]
+required-features = ["internal"]

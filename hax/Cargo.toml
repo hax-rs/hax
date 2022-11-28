@@ -13,3 +13,8 @@ path = "../hax-macros"
 version = "0.0.0"
 
 [dependencies]
+
+[[example]]
+name = "internal"
+path = "examples/internal.rs"
+crate-type = ["cdylib"]

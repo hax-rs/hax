@@ -7,7 +7,7 @@ extern "system" {
 }
 
 #[hax::main]
-fn internal() {
+fn hax() {
     AllocConsole();
 
     println!("Hello, world!");

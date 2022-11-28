@@ -11,11 +11,20 @@ pub(crate) fn main(_attr: TokenStream, item: TokenStream) -> TokenStream {
     let stmts = &ast.block.stmts;
 
     let expanded = quote! {
+        #[cfg(feature = "external")]
+        fn main() {
+            unimplemented!();
+
+            #(#stmts)*
+        }
+
+        #[cfg(feature = "internal")]
         #[link(name = "kernel32")]
         extern "system" {
             fn FreeLibraryAndExitThread(module: usize, exit_code: u32) -> !;
         }
 
+        #[cfg(feature = "internal")]
         #[no_mangle]
         unsafe extern "system" fn DllMain(module: usize, reason: u32, _: usize) -> isize {
             if reason == 1 {

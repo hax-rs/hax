@@ -32,8 +32,6 @@ pub(crate) fn main(_attr: TokenStream, item: TokenStream) -> TokenStream {
         }
     };
 
-    println!("{}", expanded);
-
     expanded.into()
 }
 

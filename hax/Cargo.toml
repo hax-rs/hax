@@ -23,5 +23,5 @@ required-features = ["external"]
 [[example]]
 name = "internal"
 path = "examples/internal.rs"
-crate-type = ["cdylib"]
 required-features = ["internal"]
+crate-type = ["cdylib"]

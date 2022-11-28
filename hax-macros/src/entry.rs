@@ -34,18 +34,3 @@ pub(crate) fn main(_attr: TokenStream, item: TokenStream) -> TokenStream {
 
     expanded.into()
 }
-
-// #[no_mangle]
-// unsafe extern "system" fn DllMain(module: usize, reason: u32, _: usize) -> isize {
-//     if reason == 1 {
-//         std::thread::spawn(move || unsafe {
-//             // ...
-
-//             FreeLibraryAndExitThread(module as _, 0);
-//         });
-
-//         return 1;
-//     }
-
-//     0
-// }

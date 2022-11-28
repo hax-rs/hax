@@ -1,6 +1,5 @@
-extern crate hax;
+hax::main!(entrypoint);
 
-#[hax::main]
-fn hax() {
-    // TODO
+fn entrypoint() {
+    todo!();
 }

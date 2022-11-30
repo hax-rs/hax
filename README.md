@@ -6,7 +6,7 @@ The versatile and intuitive memory hacking framework.
 
 [hax](https://github.com/hax-rs/hax) is a Rust crate designed to make memory hacking, game hacking, cheat development, and any other low level memory based development *simple, yet intuitive*.
 
-So far the project is in it's infancy, although many things are [planned](https://github.com/hax-rs/hax/projects) and we appreciate any form of contribution! We're on Discord and primarily discuss the project there, please note we request you not talk about cheat development as it is against Discord's terms of service.
+So far the project is in it's infancy, although many things are [planned](https://github.com/hax-rs/hax/projects) and we appreciate any form of contribution! We're on [Discord](https://discord.gg/zFZNWbKzwn) and primarily discuss the project there, please note we request you not talk about cheat development as it is against Discord's terms of service.
 
 ## 💎 Features
 

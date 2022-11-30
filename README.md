@@ -18,7 +18,7 @@ Adding hax to your project is simple, however it requires a bit of setup dependi
 
 ### External
 
-To add hax to your external project and produce an executable (.exe), you must:
+To add hax to your external project and produce an executable, you must:
 
 1. Add [hax](https://crates.io/crates/hax) to your project with cargo: `cargo add hax -F external`
 2. Inside of `main.rs`, attribute your entrypoint with `#[hax::main]`

@@ -1,5 +1,4 @@
-hax::main!(entrypoint);
-
+#[hax::main]
 fn entrypoint() {
     todo!();
 }

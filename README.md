@@ -34,3 +34,13 @@ To add hax to your internal project and produce a shared library (.dll, .dylib, 
 ### Kernel
 
 👀
+
+### Bleeding edge
+
+If you want to use the bleeding edge version of hax, you can add this to your `Cargo.toml`:
+
+```toml
+[dependencies.hax]
+git = "https://github.com/hax-rs/hax"
+package = "hax"
+```

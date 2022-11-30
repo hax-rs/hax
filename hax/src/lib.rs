@@ -1,35 +1,37 @@
-#[cfg(feature = "external")]
-#[macro_export]
-macro_rules! main {
-    ($function:expr) => {
-        fn main() {
-            $function();
-        }
-    };
-}
+pub use hax_macros::*;
 
-#[cfg(feature = "internal")]
-#[macro_export]
-macro_rules! main {
-    ($function:expr) => {
-        #[link(name = "kernel32")]
-        extern "system" {
-            fn FreeLibraryAndExitThread(module: usize, exit_code: u32) -> !;
-        }
+// #[cfg(feature = "external")]
+// #[macro_export]
+// macro_rules! main {
+//     ($function:expr) => {
+//         fn main() {
+//             $function();
+//         }
+//     };
+// }
 
-        #[no_mangle]
-        unsafe extern "system" fn DllMain(module: usize, reason: u32, _: usize) -> bool {
-            if reason == 1 {
-                std::thread::spawn(move || unsafe {
-                    $function();
+// #[cfg(feature = "internal")]
+// #[macro_export]
+// macro_rules! main {
+//     ($function:expr) => {
+//         #[link(name = "kernel32")]
+//         extern "system" {
+//             fn FreeLibraryAndExitThread(module: usize, exit_code: u32) -> !;
+//         }
 
-                    FreeLibraryAndExitThread(module, 0);
-                });
+//         #[no_mangle]
+//         unsafe extern "system" fn DllMain(module: usize, reason: u32, _: usize) -> bool {
+//             if reason == 1 {
+//                 std::thread::spawn(move || unsafe {
+//                     $function();
 
-                return true;
-            }
+//                     FreeLibraryAndExitThread(module, 0);
+//                 });
 
-            false
-        }
-    };
-}
+//                 return true;
+//             }
+
+//             false
+//         }
+//     };
+// }

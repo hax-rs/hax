@@ -1,6 +1,9 @@
 # 🧪 hax
 
-The versatile and intuitive memory hacking framework.
+![Crates.io](https://img.shields.io/crates/v/hax)
+![Crates.io](https://img.shields.io/crates/d/hax)
+![GitHub issues](https://img.shields.io/github/issues/hax-rs/hax)
+![Discord](https://img.shields.io/discord/1044711955606290433)
 
 ## 🤔 About
 

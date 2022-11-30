@@ -1,2 +1,8 @@
 /target
 /Cargo.lock
+
+# devenv.sh:
+.devenv*
+devenv.*
+.envrc
+.pre-commit-config.yaml

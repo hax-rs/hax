@@ -17,6 +17,7 @@ path = "../hax-macros"
 version = "0.0.0"
 
 [dependencies]
+memlib = "0.1.1"
 
 [[example]]
 name = "external"

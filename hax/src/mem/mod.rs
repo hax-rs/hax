@@ -7,3 +7,6 @@ pub use linux::*;
 mod windows;
 #[cfg(target_os = "windows")]
 pub use windows::*;
+
+mod shared;
+pub use shared::*;

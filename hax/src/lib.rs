@@ -1,4 +1,5 @@
 pub use hax_macros::*;
+pub mod mem;
 
 // #[cfg(feature = "external")]
 // #[macro_export]

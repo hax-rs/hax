@@ -17,7 +17,9 @@ path = "../hax-macros"
 version = "0.0.0"
 
 [dependencies]
+anyhow = "1.0.66"
 memlib = "0.1.1"
+nix = { version = "0.26.1", features = ["uio", "process"] }
 
 [[example]]
 name = "external"

@@ -2,23 +2,20 @@ use darling::FromMeta;
 use proc_macro::TokenStream;
 use proc_macro2::{Ident, Span};
 use quote::quote;
-use syn::{parse_macro_input, AttributeArgs, ItemFn};
+use syn::{parse_macro_input, AttributeArgs, ItemFn, NestedMeta};
 
-#[derive(Debug, FromMeta)]
-pub struct MacroArgs {
-    #[darling(default)]
-    process: Option<String>,
-}
-
-pub(crate) fn main(args: TokenStream, item: TokenStream) -> TokenStream {
+pub(crate) fn init(args: TokenStream, item: TokenStream) -> TokenStream {
     let args = parse_macro_input!(args as AttributeArgs);
     let item = parse_macro_input!(item as ItemFn);
 
-    let args = match MacroArgs::from_list(&args) {
-        Ok(v) => v,
-        Err(e) => {
-            return TokenStream::from(e.write_errors());
+    let init_fn = if let NestedMeta::Meta(meta) = &args[0] {
+        if let Some(ident) = meta.path().get_ident() {
+            ident
+        } else {
+            panic!("Expected ident");
         }
+    } else {
+        panic!("Expected meta");
     };
 
     let ItemFn {
@@ -35,10 +32,14 @@ pub(crate) fn main(args: TokenStream, item: TokenStream) -> TokenStream {
             },
         ..
     } = item;
+    let stmts = block.stmts;
 
     let expanded = quote! {
         #(#attrs)*
-        #vis #unsafety #abi #constness fn #ident() #block
+        #vis #unsafety #abi #constness fn #ident() {
+            #init_fn();
+            #(#stmts)*
+        }
     };
 
     expanded.into()

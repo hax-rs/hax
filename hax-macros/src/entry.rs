@@ -1,43 +1,38 @@
+use darling::FromMeta;
 use proc_macro::TokenStream;
+use proc_macro2::{Ident, Span};
 use quote::quote;
-use syn::{parse_macro_input, ItemFn};
+use syn::{parse_macro_input, AttributeArgs, ItemFn};
 
-pub(crate) fn main(_attr: TokenStream, item: TokenStream) -> TokenStream {
-    // let attr = parse_macro_input!(attr as AttributeArgs);
-    // let item = parse_macro_input!(item as Item);
+#[derive(Debug, FromMeta)]
+pub struct MacroArgs {
+    #[darling(default)]
+    init: Option<String>,
+}
 
+pub(crate) fn main(args: TokenStream, item: TokenStream) -> TokenStream {
+    let args = parse_macro_input!(args as AttributeArgs);
     let ast = parse_macro_input!(item as ItemFn);
 
+    let args = match MacroArgs::from_list(&args) {
+        Ok(v) => v,
+        Err(e) => {
+            return TokenStream::from(e.write_errors());
+        }
+    };
+
+    let init_call = if let Some(ref init) = args.init {
+        let ident = Ident::new(init, Span::call_site());
+        quote! { #ident(); }
+    } else {
+        quote! {}
+    };
+
     let stmts = &ast.block.stmts;
-
     let expanded = quote! {
-        #[cfg(feature = "external")]
         fn main() {
-            unimplemented!();
-
+            #init_call
             #(#stmts)*
-        }
-
-        #[cfg(feature = "internal")]
-        #[link(name = "kernel32")]
-        extern "system" {
-            fn FreeLibraryAndExitThread(module: usize, exit_code: u32) -> !;
-        }
-
-        #[cfg(feature = "internal")]
-        #[no_mangle]
-        unsafe extern "system" fn DllMain(module: usize, reason: u32, _: usize) -> isize {
-            if reason == 1 {
-                std::thread::spawn(move || unsafe {
-                    #(#stmts)*
-
-                    FreeLibraryAndExitThread(module as _, 0);
-                });
-
-                return 1;
-            }
-
-            0
         }
     };
 

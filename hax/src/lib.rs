@@ -1,6 +1,12 @@
+pub use feature::*;
 pub use hax_macros::*;
+pub use mem::*;
 
-pub mod mem;
+#[doc(hidden)]
+pub use linkme::distributed_slice as init_fn;
+
+mod feature;
+mod mem;
 
 #[cfg(feature = "external")]
 pub type Memory = mem::ExternalMemory;

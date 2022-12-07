@@ -1,16 +1,21 @@
 use std::ops::{Deref, DerefMut};
 
 use linkme::distributed_slice;
+use serde::{Deserialize, Serialize};
 
 #[distributed_slice]
 pub static FEATURES_INIT: [fn() -> FeatureWrapper] = [..];
 
 pub type FeatureBox = Box<dyn Feature>;
 
+#[typetag::serde]
 pub trait Feature {
     fn new() -> Self
     where
-        Self: Sized + Default;
+        Self: Sized + Default,
+    {
+        Default::default()
+    }
 
     fn setup(&mut self);
 
@@ -19,6 +24,7 @@ pub trait Feature {
     fn cleanup(&mut self);
 }
 
+#[derive(Serialize, Deserialize)]
 pub struct FeatureWrapper {
     pub name: String,
     pub enabled: bool,
@@ -38,6 +44,24 @@ impl FeatureWrapper {
 
     pub fn toggle(&mut self) {
         self.enabled = !self.enabled;
+    }
+
+    /// Load config from `config.toml`.
+    pub fn load(&mut self) {
+        if let Ok(config) = std::fs::read_to_string("config.toml") {
+            if let Ok(config) = toml::from_str::<Vec<Self>>(&config) {
+                if let Some(config) = config.into_iter().find(|c| c.name == self.name) {
+                    self.enabled = config.enabled;
+                    self.key = config.key;
+                    self.feature = config.feature;
+                }
+            }
+        }
+    }
+
+    /// Save config to `config.toml`.
+    pub fn save(&self) {
+        std::fs::write("config.toml", toml::to_string_pretty(self).unwrap()).unwrap();
     }
 }
 

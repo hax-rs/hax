@@ -1,4 +1,4 @@
-use hax::{Feature, FeatureBox, FeatureWrapper};
+use hax::{Feature, FeatureWrapper};
 use serde::{Deserialize, Serialize};
 
 // #[derive(Feature)]
@@ -7,12 +7,8 @@ pub struct ExampleFeature {
     pub foo: u32,
 }
 
+#[typetag::serde]
 impl Feature for ExampleFeature {
-    fn new() -> Self {
-        println!("ExampleFeature::new");
-        Default::default()
-    }
-
     fn setup(&mut self) {
         println!("ExampleFeature::setup");
     }
@@ -33,3 +29,11 @@ fn feature_init() -> FeatureWrapper {
 
 #[allow(unused)]
 fn main() {}
+
+#[test]
+fn test() {
+    let mut feature = feature_init();
+
+    feature.load();
+    feature.save();
+}

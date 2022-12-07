@@ -1,0 +1,5 @@
+name = 'ExampleFeature'
+enabled = false
+key = 0
+[feature.ExampleFeature]
+foo = 0

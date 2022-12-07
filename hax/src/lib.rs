@@ -1,3 +1,5 @@
+#![feature(const_trait_impl)]
+
 pub use feature::*;
 pub use hax_macros::*;
 pub use mem::*;

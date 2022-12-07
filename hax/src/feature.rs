@@ -1,15 +1,16 @@
+use std::ops::{Deref, DerefMut};
+
 use linkme::distributed_slice;
 
 #[distributed_slice]
-pub static FEATURES_INIT: [fn() -> Box<dyn Feature>] = [..];
+pub static FEATURES_INIT: [fn() -> FeatureWrapper] = [..];
 
-pub type FeatureFn = Box<fn() -> FeatureBox>;
 pub type FeatureBox = Box<dyn Feature>;
 
 pub trait Feature {
     fn new() -> Self
     where
-        Self: Sized;
+        Self: Sized + Default;
 
     fn setup(&mut self);
 
@@ -22,20 +23,34 @@ pub struct FeatureWrapper {
     pub name: String,
     pub enabled: bool,
     pub key: i16,
-    pub imp: FeatureFn,
+    pub feature: FeatureBox,
 }
 
 impl FeatureWrapper {
-    pub const fn new(name: String, key: i16, imp: FeatureFn) -> Self {
+    pub fn new(name: impl ToString, key: i16, feature: FeatureBox) -> Self {
         Self {
-            name,
+            name: name.to_string(),
             enabled: false,
             key,
-            imp,
+            feature,
         }
     }
 
     pub fn toggle(&mut self) {
         self.enabled = !self.enabled;
+    }
+}
+
+impl Deref for FeatureWrapper {
+    type Target = FeatureBox;
+
+    fn deref(&self) -> &Self::Target {
+        &self.feature
+    }
+}
+
+impl DerefMut for FeatureWrapper {
+    fn deref_mut(&mut self) -> &mut Self::Target {
+        &mut self.feature
     }
 }

@@ -1,7 +1,8 @@
-use hax::{Feature, FeatureBox};
+use hax::{Feature, FeatureBox, FeatureWrapper};
+use serde::{Deserialize, Serialize};
 
 // #[derive(Feature)]
-#[derive(Debug, Default)]
+#[derive(Debug, Default, Serialize, Deserialize)]
 pub struct ExampleFeature {
     pub foo: u32,
 }
@@ -26,8 +27,8 @@ impl Feature for ExampleFeature {
 }
 
 #[hax::init_fn(hax::FEATURES_INIT)]
-fn feature_init() -> FeatureBox {
-    Box::new(ExampleFeature::new())
+fn feature_init() -> FeatureWrapper {
+    FeatureWrapper::new("ExampleFeature", 0, Box::new(ExampleFeature::new()))
 }
 
 #[allow(unused)]

@@ -1,6 +1,18 @@
-pub use hax_macros::*;
+#![feature(const_trait_impl)]
 
-pub mod mem;
+pub use feature::*;
+pub use hax_macros::*;
+pub use mem::*;
+
+pub use memlib;
+
+pub use typetag::serde as typetag;
+
+#[doc(hidden)]
+pub use linkme::distributed_slice as init_fn;
+
+mod feature;
+mod mem;
 
 #[cfg(feature = "external")]
 pub type Memory = mem::ExternalMemory;

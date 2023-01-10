@@ -2,7 +2,7 @@ pub mod feature;
 
 #[hax::main]
 fn main() {
-    let mut features = hax::FEATURES_INIT.iter().map(|f| f()).collect::<Vec<_>>();
+    let mut features = hax::features();
 
     // TODO: How to load/save config?
     // - Default: load from config.toml

@@ -1,6 +1,5 @@
 use darling::FromMeta;
 use proc_macro::TokenStream;
-use proc_macro2::{Ident, Span};
 use quote::quote;
 use syn::{parse_macro_input, AttributeArgs, ItemFn};
 
@@ -20,6 +19,7 @@ pub(crate) fn main(args: TokenStream, item: TokenStream) -> TokenStream {
             return TokenStream::from(e.write_errors());
         }
     };
+    let _ = args;
 
     let ItemFn {
         attrs,

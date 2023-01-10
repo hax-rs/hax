@@ -6,10 +6,15 @@ use serde::{Deserialize, Serialize};
 #[distributed_slice]
 pub static FEATURES_INIT: [fn() -> FeatureWrapper] = [..];
 
-pub type FeatureBox = Box<dyn Feature>;
+pub type FeatureBox = Box<dyn FeatureTrait>;
+
+/// Returns a list of all the features.
+pub fn features() -> Vec<FeatureWrapper> {
+    FEATURES_INIT.iter().map(|f| f()).collect::<Vec<_>>()
+}
 
 #[typetag::serde]
-pub trait Feature {
+pub trait FeatureTrait {
     fn new() -> Self
     where
         Self: Sized + Default,
@@ -61,7 +66,14 @@ impl FeatureWrapper {
 
     /// Save config to `config.toml`.
     pub fn save(&self) {
-        std::fs::write("config.toml", toml::to_string_pretty(self).unwrap()).unwrap();
+        let toml = toml::to_string_pretty(self).unwrap();
+
+        use std::io::Write;
+        if let Ok(mut file) = std::fs::OpenOptions::new().append(true).open("config.toml") {
+            if let Err(e) = writeln!(file, "{}", toml) {
+                eprintln!("Couldn't write to file: {}", e);
+            }
+        }
     }
 }
 

@@ -1,15 +1,13 @@
-use hax::{Feature, FeatureTrait};
+use hax::FeatureTrait;
+use hax_macros::Feature;
 use serde::{Deserialize, Serialize};
 
-#[derive(Feature, Debug, Default, Serialize, Deserialize)]
+#[derive(Feature, Serialize, Deserialize, Default)]
 pub struct ExampleFeature {
-    pub foo: u32,
-
-    #[serde(skip)]
-    pub bar: u32,
+    foo: u32,
 }
 
-#[hax::typetag]
+#[typetag::serde]
 impl FeatureTrait for ExampleFeature {
     fn setup(&mut self) {
         println!("ExampleFeature::setup");
@@ -24,13 +22,7 @@ impl FeatureTrait for ExampleFeature {
     }
 }
 
-#[allow(unused)]
-fn main() {}
-
-#[test]
-fn test() {
-    let mut feature = feature_init();
-
-    feature.load();
-    feature.save();
+fn main() {
+    let features = hax::features();
+    assert_eq!(features.len(), 1);
 }

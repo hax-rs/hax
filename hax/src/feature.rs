@@ -28,11 +28,11 @@ pub trait FeatureTrait {
         Default::default()
     }
 
-    fn setup(&mut self);
+    fn setup(&mut self) {}
 
-    fn tick(&mut self);
+    fn tick(&mut self) {}
 
-    fn cleanup(&mut self);
+    fn cleanup(&mut self) {}
 }
 
 #[derive(Serialize, Deserialize)]

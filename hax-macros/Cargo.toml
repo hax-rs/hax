@@ -12,7 +12,6 @@ license = "MIT"
 proc-macro = true
 
 [dependencies]
-ctor = "0.1.26"
 darling = "0.14.2"
 proc-macro2 = "1.0"
 quote = "1.0"
@@ -22,4 +21,3 @@ syn = { version = "1.0", features = ["full", "extra-traits"] }
 serde = { version = "1.0.152", features = ["derive"] }
 hax = { path = "../hax" }
 linkme = "0.3.7"
-typetag = "0.2.4"

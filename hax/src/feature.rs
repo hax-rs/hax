@@ -10,7 +10,13 @@ pub type FeatureBox = Box<dyn FeatureTrait>;
 
 /// Returns a list of all the features.
 pub fn features() -> Vec<FeatureWrapper> {
-    FEATURES_INIT.iter().map(|f| f()).collect::<Vec<_>>()
+    let mut features = FEATURES_INIT.iter().map(|f| f()).collect::<Vec<_>>();
+
+    for feature in &mut features {
+        feature.load();
+    }
+
+    features
 }
 
 #[typetag::serde]
@@ -51,29 +57,35 @@ impl FeatureWrapper {
         self.enabled = !self.enabled;
     }
 
-    /// Load config from `config.toml`.
+    /// Load config from `config_{name}.toml`.
     pub fn load(&mut self) {
-        if let Ok(config) = std::fs::read_to_string("config.toml") {
-            if let Ok(config) = toml::from_str::<Vec<Self>>(&config) {
-                if let Some(config) = config.into_iter().find(|c| c.name == self.name) {
-                    self.enabled = config.enabled;
-                    self.key = config.key;
-                    self.feature = config.feature;
-                }
+        log::debug!("Loading feature from disk");
+
+        let file = format!("config_{}.toml", self.name);
+        let Ok(config) = std::fs::read_to_string(file) else {
+            log::warn!("Couldn't find config.toml");
+            return;
+        };
+        let config = match toml::from_str::<Self>(&config) {
+            Ok(config) => config,
+            Err(error) => {
+                log::warn!("Couldn't parse config.toml: {}", error);
+                return;
             }
-        }
+        };
+
+        self.enabled = config.enabled;
+        self.key = config.key;
+        self.feature = config.feature;
     }
 
     /// Save config to `config.toml`.
     pub fn save(&self) {
-        let toml = toml::to_string_pretty(self).unwrap();
+        log::debug!("Saving feature to disk");
 
-        use std::io::Write;
-        if let Ok(mut file) = std::fs::OpenOptions::new().append(true).open("config.toml") {
-            if let Err(e) = writeln!(file, "{}", toml) {
-                eprintln!("Couldn't write to file: {}", e);
-            }
-        }
+        let toml = toml::to_string(self).unwrap();
+        let file = format!("config_{}.toml", self.name);
+        std::fs::write(file, toml).unwrap();
     }
 }
 

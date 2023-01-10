@@ -5,6 +5,7 @@ use syn::{parse_macro_input, AttributeArgs, ItemFn};
 
 #[derive(Debug, FromMeta)]
 pub struct MacroArgs {
+    #[allow(unused)]
     #[darling(default)]
     process: Option<String>,
 }

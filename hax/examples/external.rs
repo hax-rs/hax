@@ -2,6 +2,8 @@ pub mod feature;
 
 #[hax::main]
 fn main() {
+    env_logger::init();
+
     let mut features = hax::features();
 
     // TODO: How to load/save config?
@@ -14,4 +16,8 @@ fn main() {
         f.tick();
     }
     features.iter_mut().for_each(|f| f.cleanup());
+
+    // Save all feature configs
+    //
+    features.iter_mut().for_each(|f| f.save());
 }

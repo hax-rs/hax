@@ -7,7 +7,7 @@ pub struct ExampleFeature {
     foo: u32,
 }
 
-#[typetag::serde]
+#[hax::typetag]
 impl FeatureTrait for ExampleFeature {
     fn setup(&mut self) {
         println!("ExampleFeature::setup");

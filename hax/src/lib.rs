@@ -4,6 +4,8 @@ pub use feature::*;
 pub use hax_macros::*;
 pub use mem::*;
 
+pub use memlib;
+
 pub use typetag::serde as typetag;
 
 #[doc(hidden)]

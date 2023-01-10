@@ -10,6 +10,7 @@ use nix::{
     unistd::Pid,
 };
 
+#[derive(Clone)]
 pub struct ExternalMemory {
     pid: Pid,
 }

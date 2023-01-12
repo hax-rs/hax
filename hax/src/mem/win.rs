@@ -6,8 +6,7 @@ use windows::Win32::System::Diagnostics::Debug::ReadProcessMemory;
 use windows::Win32::System::Diagnostics::Debug::WriteProcessMemory;
 use windows::Win32::System::Threading::OpenProcess;
 use windows::Win32::System::Threading::PROCESS_ACCESS_RIGHTS;
-use windows::Win32::System::Threading::PROCESS_VM_READ;
-use windows::Win32::System::Threading::PROCESS_VM_WRITE;
+use windows::Win32::System::Threading::PROCESS_ALL_ACCESS;
 
 pub struct ExternalMemory {
     handle: HANDLE,
@@ -17,7 +16,7 @@ impl ExternalMemory {
     pub fn new(pid: i32) -> Self {
         let handle = unsafe {
             OpenProcess(
-                PROCESS_ACCESS_RIGHTS(PROCESS_VM_READ.0 | PROCESS_VM_WRITE.0),
+                PROCESS_ACCESS_RIGHTS(PROCESS_ALL_ACCESS.0),
                 false,
                 pid as u32,
             )
